@@ -1,3 +1,5 @@
+import tiktoken
+
 
 def merge(indices: list[int], pair: tuple(int, int), new_index: int) -> list[int]:
     """ Return indices, but with all instances of 'pair' replcced with 'new_index'. """
@@ -13,3 +15,14 @@ def merge(indices: list[int], pair: tuple(int, int), new_index: int) -> list[int
             new_indices.append(indices[i])
 
         return new_indices
+
+def get_compression_ratio(string: str, indices: list[int]) -> float:
+    """Given 'string' that has been tokenized into 'indices', return the number of UTF-8 bytes per token"""
+
+    num_bytes = len(bytes(string, encoding = "utf-8"))
+    num_tokens = len(indices)
+
+    return num_bytes / num_tokens
+
+def get_gpt5_tokenizer():
+    return tiktoken.get_encoding("o200k_base")
